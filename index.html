@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Horecabier — Gratis proefpakket</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --yellow:#ffda00;
+  --gold:#e0ba00;
+  --ink:#3c3c3b;
+  --navy:#112337;
+  --cream:#fbfaf6;
+  --white:#ffffff;
+  --line:#ece8df;
+  --font-head:'Jost',sans-serif;
+  --font-body:'Archivo',sans-serif;
+  --maxw:1180px;
+  --gap:clamp(64px,8vw,112px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--font-head);font-weight:800;text-transform:uppercase;line-height:1.06;letter-spacing:-.01em;color:var(--navy)}
+.label{font-family:var(--font-head);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.24em;color:var(--ink);display:inline-flex;align-items:center;gap:10px}
+.label::before{content:"";width:26px;height:3px;background:var(--yellow)}
+.label.on-navy{color:var(--white)}
+
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-head);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.12em;padding:17px 36px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:transform .2s,box-shadow .2s,background .2s,color .2s}
+.btn-yellow{background:var(--yellow);color:var(--navy)}
+.btn-yellow:hover{transform:translateY(-3px);box-shadow:0 14px 26px rgba(255,218,0,.45)}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-navy:hover{transform:translateY(-3px);box-shadow:0 14px 26px rgba(17,35,55,.3)}
+.btn-outline{background:transparent;border-color:var(--navy);color:var(--navy)}
+.btn-outline:hover{background:var(--navy);color:#fff;transform:translateY(-3px)}
+.btn-ghost{background:transparent;border-color:rgba(255,255,255,.6);color:#fff}
+.btn-ghost:hover{background:#fff;color:var(--navy);transform:translateY(-3px)}
+.btn .arrow{transition:transform .2s}.btn:hover .arrow{transform:translateX(5px)}
+
+header{position:fixed;inset:0 0 auto 0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:16px clamp(20px,5vw,52px);transition:background .3s,box-shadow .3s,padding .3s}
+header.scrolled{background:rgba(251,250,246,.92);backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line);padding:11px clamp(20px,5vw,52px)}
+.logo-img{height:40px;width:auto}
+nav ul{display:flex;gap:32px;list-style:none}
+nav a{font-family:var(--font-head);font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.16em;color:#fff;position:relative}
+/* Bovenaan staat de header op de donkere hero, dus wit. Zodra hij bij het scrollen
+   een cremekleurige balk krijgt, moet de tekst juist weer donker worden. */
+header.scrolled nav a{color:var(--ink)}
+nav a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--yellow);transition:width .25s}
+nav a:hover::after{width:100%}
+.nav-cta{padding:12px 24px;font-size:12px}
+
+/* hero */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:#0c1830}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;background:url('img/hb_beer_hero.jpg') center right/cover no-repeat}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(95deg,rgba(15,28,48,.97) 0%,rgba(15,28,48,.86) 36%,rgba(15,28,48,.5) 64%,rgba(15,28,48,.2) 100%)}
+.hero-grid{position:relative;z-index:3;max-width:var(--maxw);margin:0 auto;width:100%;padding:128px clamp(20px,5vw,40px) 70px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:40px}
+.hero h1{font-size:clamp(46px,7.5vw,92px);color:#fff}
+.hero h1 .hl{position:relative;display:inline-block;z-index:1}
+.hero h1 .hl::after{content:"";position:absolute;left:-4px;right:-4px;bottom:.08em;height:.34em;background:var(--yellow);z-index:-1;transform:rotate(-1deg)}
+.hero .tagline{font-family:var(--font-head);font-weight:600;font-size:clamp(17px,2vw,21px);color:#fff;letter-spacing:.02em;margin:18px 0 14px}
+.hero p{font-size:18px;color:rgba(255,255,255,.85);max-width:46ch;margin-bottom:30px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.hero-visual{position:relative;display:flex;justify-content:center;align-items:center;min-height:480px}
+.hero-visual .disc{position:absolute;width:135%;max-width:700px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(255,196,77,.32) 0%,rgba(255,196,77,.12) 42%,rgba(255,196,77,0) 66%);z-index:0}
+.hero-visual img{position:relative;z-index:1;width:min(48vw,540px);transform:rotate(-4deg);filter:drop-shadow(0 42px 60px rgba(0,0,0,.55))}
+.hero-visual .free{position:absolute;z-index:2;top:6%;right:4%;background:var(--navy);color:#fff;font-family:var(--font-head);font-weight:800;text-transform:uppercase;border-radius:50%;width:104px;height:104px;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(8deg);box-shadow:0 12px 24px rgba(0,0,0,.2);line-height:1}
+.free .b{font-size:24px;color:var(--yellow)}.free .s{font-size:11px;letter-spacing:.14em;margin-top:3px}
+
+/* usp strip */
+.usp{background:var(--navy);color:#fff;font-family:var(--font-head);font-weight:500;font-size:13px;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:16px;display:flex;gap:26px;justify-content:center;flex-wrap:wrap}
+.usp .sep{color:var(--yellow)}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:var(--gap) clamp(20px,5vw,40px)}
+.head{text-align:center;max-width:680px;margin:0 auto 50px}
+.head .label{justify-content:center}
+.head h2{font-size:clamp(34px,5vw,60px);margin-top:14px}
+.head p{margin-top:14px;color:#6a635e}
+
+/* wat zit erin */
+.range{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(32px,6vw,72px);align-items:center}
+.range-media{position:relative;display:flex;justify-content:center}
+.range-media .disc{position:absolute;width:95%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(255,218,0,.5) 0%,rgba(255,218,0,0) 70%);z-index:0}
+.range-media img{position:relative;z-index:1;width:min(42vw,440px);transform:rotate(3deg);filter:drop-shadow(0 24px 38px rgba(0,0,0,.2))}
+.range h2{font-size:clamp(32px,4.4vw,52px)}
+.range p{color:#5b554f;margin:14px 0 24px;max-width:44ch}
+.beers{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.beer{display:flex;align-items:center;gap:12px;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:13px 16px;font-family:var(--font-head);font-weight:600;font-size:15px;color:var(--navy);letter-spacing:.02em}
+.beer .d{width:14px;height:14px;border-radius:50%;flex:none}
+
+/* voordelen */
+.voordelen{background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.vcard{background:var(--cream);border-radius:12px;padding:28px 24px;border:1px solid var(--line)}
+.vcard .ic{width:46px;height:46px;border-radius:10px;background:var(--yellow);color:var(--navy);display:grid;place-items:center;margin-bottom:16px}
+.vcard h3{font-size:20px;text-transform:uppercase;margin-bottom:8px}
+.vcard p{font-size:14.5px;color:#5b554f}
+
+/* besparing band */
+.besparing{background:var(--yellow);color:var(--navy);text-align:center}
+.besparing .wrap{padding-top:clamp(56px,7vw,88px);padding-bottom:clamp(56px,7vw,88px)}
+.besparing .big{font-family:var(--font-head);font-weight:800;font-size:clamp(46px,8vw,104px);line-height:.9;letter-spacing:-.02em}
+.besparing h2{color:var(--navy);font-size:clamp(28px,4vw,46px);margin:6px 0 10px}
+.besparing p{max-width:50ch;margin:0 auto 26px;color:#4a4226;font-weight:500}
+
+/* zo werkt het */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;counter-reset:step}
+.step{position:relative;background:var(--white);border:1px solid var(--line);border-radius:12px;padding:34px 26px 28px}
+.step::before{counter-increment:step;content:"0" counter(step);font-family:var(--font-head);font-weight:800;font-size:46px;color:var(--yellow);line-height:1;display:block;margin-bottom:12px;-webkit-text-stroke:1px var(--gold)}
+.step h3{font-size:20px;text-transform:uppercase;margin-bottom:8px}
+.step p{font-size:14.5px;color:#5b554f}
+
+/* final cta */
+.final{background:var(--navy);color:#fff;text-align:center}
+.final h2{color:#fff;font-size:clamp(36px,5.5vw,68px)}
+.final h2 .hl{color:var(--yellow)}
+.final p{color:rgba(255,255,255,.82);max-width:46ch;margin:14px auto 28px}
+.final .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+footer{background:var(--navy);color:rgba(255,255,255,.78);padding:56px clamp(20px,5vw,40px) 36px;border-top:4px solid var(--yellow)}
+.foot{max-width:var(--maxw);margin:0 auto;display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.foot .cols{display:flex;gap:56px;flex-wrap:wrap}
+.foot h4{font-family:var(--font-head);font-weight:600;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--yellow);margin-bottom:13px}
+.foot .cols a{display:block;font-size:14px;margin-bottom:9px}.foot .cols a:hover{color:#fff}
+.foot-bottom{max-width:var(--maxw);margin:36px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.14);font-family:var(--font-head);font-weight:500;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
+
+@media(max-width:880px){
+  nav ul{display:none}
+  .hero-grid,.range,.vgrid,.steps{grid-template-columns:1fr}
+  .hero-visual{min-height:340px;order:-1}
+  .range-media{order:-1}
+  .beers{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+
+<header id="hdr">
+  <a href="#top" aria-label="Horecabier"><img class="logo-img" src="img/hb_logo.png" alt="Horecabier"></a>
+  <nav><ul>
+    <li><a href="#proefpakket">Het proefpakket</a></li>
+    <li><a href="#voordelen">Voordelen</a></li>
+    <li><a href="#besparing">Besparing</a></li>
+    <li><a href="#werkt">Zo werkt het</a></li>
+  </ul></nav>
+  <a href="#aanvragen" class="btn btn-yellow nav-cta">Gratis aanvragen</a>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <span class="label on-navy reveal">Gratis &amp; vrijblijvend</span>
+      <h1 class="reveal d1" style="margin-top:16px">Proef <span class="hl">het verschil</span></h1>
+      <div class="tagline reveal d1">Wel de smaak, niet de prijs.</div>
+      <p class="reveal d2">Ontvang gratis een proefpakket met onze bieren. Proef de hele range, ontdek hoeveel je bespaart en stap over wanneer het jou uitkomt. Zonder verplichtingen.</p>
+      <div class="hero-actions reveal d3">
+        <a href="#aanvragen" class="btn btn-yellow">Vraag gratis proefpakket aan</a>
+        <a href="#besparing" class="btn btn-ghost">Bereken je besparing <span class="arrow">→</span></a>
+      </div>
+    </div>
+    <div class="hero-visual reveal d2">
+      <div class="disc"></div>
+      <img src="img/hb_proefpakket_cut.png" alt="Horecabier proefpakket met bieren">
+      <div class="free"><span class="b">GRATIS</span><span class="s">Proefpakket</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="usp">
+  <span>Gratis &amp; vrijblijvend</span><span class="sep">·</span>
+  <span>Wel de smaak, niet de prijs</span><span class="sep">·</span>
+  <span>Nederlands gebrouwen</span><span class="sep">·</span>
+  <span>Snel geleverd</span>
+</div>
+
+<!-- WAT ZIT ERIN -->
+<section id="proefpakket">
+  <div class="wrap range">
+    <div class="range-media reveal">
+      <div class="disc"></div>
+      <img src="img/hb_proefpakket_cut.png" alt="Proefpakket open doos">
+    </div>
+    <div class="range-copy">
+      <span class="label reveal">Wat zit erin</span>
+      <h2 class="reveal d1">Onze hele range, in één doos</h2>
+      <p class="reveal d1">Van een frisse pils tot vol speciaalbier. Proef het volledige assortiment en kies wat bij jouw zaak past.</p>
+      <div class="beers reveal d2">
+        <div class="beer"><span class="d" style="background:#e0ba00"></span>Horecabier Goud (pils)</div>
+        <div class="beer"><span class="d" style="background:#c9c9cf"></span>Horecabier Zilver</div>
+        <div class="beer"><span class="d" style="background:#f1d99b"></span>Witbier</div>
+        <div class="beer"><span class="d" style="background:#d8a24a"></span>Weizen</div>
+        <div class="beer"><span class="d" style="background:#c8772e"></span>IPA</div>
+        <div class="beer"><span class="d" style="background:#caa15a"></span>Blond</div>
+        <div class="beer"><span class="d" style="background:#7a4a22"></span>Tripel</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOORDELEN -->
+<section class="voordelen" id="voordelen">
+  <div class="wrap">
+    <div class="head">
+      <span class="label reveal">Waarom Horecabier</span>
+      <h2 class="reveal d1">Dezelfde smaak, een betere prijs</h2>
+    </div>
+    <div class="vgrid">
+      <div class="vcard reveal">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+        <h3>Direct besparen</h3><p>Dezelfde kwaliteit voor een scherpere prijs. Wel de smaak, niet de prijs.</p>
+      </div>
+      <div class="vcard reveal d1">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 9h14l-1.5 12h-11L5 9Z"/><path d="M8 9c0-3.5 8-3.5 8 0M3 9h18"/></svg></div>
+        <h3>Nederlands gebrouwen</h3><p>Gebrouwen in een Nederlandse brouwerij. Vers en betrouwbaar geleverd.</p>
+      </div>
+      <div class="vcard reveal d2">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v6h-6"/></svg></div>
+        <h3>Hogere marge</h3><p>Meer rendement per glas, zonder in te leveren op smaak of kwaliteit.</p>
+      </div>
+      <div class="vcard reveal">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <h3>Vrijblijvend proeven</h3><p>Eerst proeven, dan pas beslissen. Geen contracten, geen verplichtingen.</p>
+      </div>
+      <div class="vcard reveal d1">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h3>Snel geleverd</h3><p>Betrouwbare levering door heel Nederland via meer dan 80 lokale drankenhandels.</p>
+      </div>
+      <div class="vcard reveal d2">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10Z"/></svg></div>
+        <h3>Persoonlijk advies</h3><p>We denken mee over je assortiment en kijken samen waar je kunt besparen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BESPARING -->
+<section class="besparing" id="besparing">
+  <div class="wrap">
+    <span class="label reveal" style="justify-content:center;color:var(--navy)"><span style="background:var(--navy)"></span>Wat het oplevert</span>
+    <div class="big reveal d1" style="margin-top:14px">€5.000</div>
+    <h2 class="reveal d1">besparing per jaar?</h2>
+    <p class="reveal d2">Veel horecazaken besparen honderden tot duizenden euro's per jaar, en vaak nog meer. Benieuwd wat het voor jou oplevert? Vraag het proefpakket aan, dan rekenen we je besparing samen door.</p>
+    <a href="#aanvragen" class="btn btn-navy reveal d2">Bereken jouw besparing</a>
+  </div>
+</section>
+
+<!-- ZO WERKT HET -->
+<section id="werkt">
+  <div class="wrap">
+    <div class="head">
+      <span class="label reveal">Zo werkt het</span>
+      <h2 class="reveal d1">In drie stappen geregeld</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><h3>Aanvragen</h3><p>Vraag het gratis proefpakket aan. Wij sturen het zonder gedoe naar je toe.</p></div>
+      <div class="step reveal d1"><h3>Proeven</h3><p>Proef de hele range met je team en ontdek welke bieren bij je zaak passen.</p></div>
+      <div class="step reveal d2"><h3>Besparen</h3><p>We rekenen je besparing door. Bevalt het? Dan stap je over wanneer jij wilt.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final" id="aanvragen">
+  <div class="wrap">
+    <span class="label on-navy reveal" style="justify-content:center">Gratis proefpakket</span>
+    <h2 class="reveal d1" style="margin-top:14px">Klaar om <span class="hl">te proeven?</span></h2>
+    <p class="reveal d1">Vraag vandaag nog je gratis proefpakket aan. Geen verplichtingen, gewoon proeven en zelf bepalen.</p>
+    <div class="cta reveal d2">
+      <a href="mailto:info@horecabier.nl?subject=Aanvraag%20gratis%20proefpakket" class="btn btn-yellow">Vraag gratis proefpakket aan</a>
+      <a href="tel:0229275050" class="btn btn-ghost">Bel 0229 - 27 50 50 <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <div>
+      <a href="#top" aria-label="Horecabier"><img class="logo-img" src="img/hb_logo_white.png" alt="Horecabier" style="height:42px"></a>
+      <p style="margin-top:14px;font-size:14px;color:rgba(255,255,255,.6);max-width:30ch">Bier en dranken voor de horeca. Gebrouwen in Nederland, geleverd zonder gedoe.</p>
+    </div>
+    <div class="cols">
+      <div><h4>Proefpakket</h4><a href="#proefpakket">Wat zit erin</a><a href="#voordelen">Voordelen</a><a href="#besparing">Besparing</a></div>
+      <div><h4>Horecabier</h4><a href="#">Assortiment</a><a href="#">Over ons</a><a href="#aanvragen">Contact</a></div>
+      <div><h4>Contact</h4><a href="mailto:info@horecabier.nl">info@horecabier.nl</a><a href="tel:0229275050">0229 - 27 50 50</a><a href="#">De Corantijn 28, Zwaag</a></div>
+    </div>
+  </div>
+  <div class="foot-bottom"><span>© 2026 Horecabier.nl B.V.</span><span>Gratis proefpakket</span></div>
+</footer>
+
+<script>
+const hdr=document.getElementById('hdr');
+addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>40),{passive:true});
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.16});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
