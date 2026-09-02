@@ -128,6 +128,8 @@ nav a:hover::after{width:100%}
 .form-card label:first-of-type{margin-top:0}
 .form-card input{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:8px;font-family:var(--font-body);font-size:15px;color:var(--ink);background:#fff}
 .form-card input:focus{outline:none;border-color:var(--navy)}
+.form-card input.invalid{border-color:#b3261e}
+.form-card .err{display:block;font-size:12.5px;color:#b3261e;margin-top:5px;font-weight:600;min-height:0}
 .form-card button{width:100%;margin-top:22px}
 .form-card #formstatus{text-align:center}
 
@@ -286,14 +288,14 @@ footer{background:var(--navy);color:rgba(255,255,255,.78);padding:56px clamp(20p
     <span class="label on-navy reveal" style="justify-content:center">Gratis proefpakket</span>
     <h2 class="reveal d1" style="margin-top:14px">Klaar om <span class="hl">te proeven?</span></h2>
     <p class="reveal d1">Vraag vandaag nog je gratis proefpakket aan. Geen verplichtingen, gewoon proeven en zelf bepalen.</p>
-    <form id="aanvraag" class="form-card reveal d2">
+    <form id="aanvraag" class="form-card reveal d2" novalidate>
       <div class="row">
-        <div><label for="f-naam">Naam</label><input id="f-naam" name="naam" required autocomplete="name"></div>
-        <div><label for="f-bedrijf">Bedrijfsnaam</label><input id="f-bedrijf" name="bedrijf" required autocomplete="organization"></div>
+        <div><label for="f-naam">Naam</label><input id="f-naam" name="naam" required autocomplete="name"><span class="err" id="err-naam"></span></div>
+        <div><label for="f-bedrijf">Bedrijfsnaam</label><input id="f-bedrijf" name="bedrijf" required autocomplete="organization"><span class="err" id="err-bedrijf"></span></div>
       </div>
       <div class="row">
-        <div><label for="f-email">E-mailadres</label><input id="f-email" name="email" type="email" required autocomplete="email"></div>
-        <div><label for="f-telefoon">Telefoonnummer</label><input id="f-telefoon" name="telefoon" type="tel" required autocomplete="tel"></div>
+        <div><label for="f-email">E-mailadres</label><input id="f-email" name="email" type="email" required autocomplete="email"><span class="err" id="err-email"></span></div>
+        <div><label for="f-telefoon">Telefoonnummer</label><input id="f-telefoon" name="telefoon" type="tel" required autocomplete="tel"><span class="err" id="err-telefoon"></span></div>
       </div>
       <label for="f-bericht">Opmerking <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#8a837c">(optioneel)</span></label>
       <input id="f-bericht" name="bericht" placeholder="Waar kunnen we je mee helpen?">
@@ -341,9 +343,55 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     status.style.display = 'block';
   }
 
+  // Eigen validatie i.p.v. de standaard browser-popup, zodat de melding altijd
+  // in het Nederlands staat en bij het juiste veld verschijnt.
+  function toonVeldfout(veld, tekst) {
+    var el = form.elements[veld];
+    var err = document.getElementById('err-' + veld);
+    el.classList.toggle('invalid', !!tekst);
+    if (err) err.textContent = tekst || '';
+    return !tekst;
+  }
+
+  function valideer() {
+    var ok = true;
+    var naam = form.elements['naam'].value.trim();
+    var bedrijf = form.elements['bedrijf'].value.trim();
+    var email = form.elements['email'].value.trim();
+    var telefoon = form.elements['telefoon'].value.trim();
+
+    ok = toonVeldfout('naam', naam ? '' : 'Vul je naam in') && ok;
+    ok = toonVeldfout('bedrijf', bedrijf ? '' : 'Vul je bedrijfsnaam in') && ok;
+    if (!email) {
+      ok = toonVeldfout('email', 'Vul je e-mailadres in') && ok;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      ok = toonVeldfout('email', 'Dit e-mailadres klopt niet, controleer het') && ok;
+    } else {
+      ok = toonVeldfout('email', '') && ok;
+    }
+    var cijfers = telefoon.replace(/[^0-9]/g, '');
+    if (!telefoon) {
+      ok = toonVeldfout('telefoon', 'Vul je telefoonnummer in') && ok;
+    } else if (cijfers.length < 8) {
+      ok = toonVeldfout('telefoon', 'Dit telefoonnummer klopt niet, controleer het') && ok;
+    } else {
+      ok = toonVeldfout('telefoon', '') && ok;
+    }
+    return ok;
+  }
+
+  ['naam', 'bedrijf', 'email', 'telefoon'].forEach(function (veld) {
+    form.elements[veld].addEventListener('input', function () { toonVeldfout(veld, ''); });
+  });
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (knop.disabled) return;
+    if (!valideer()) {
+      melding('Niet alle velden zijn goed ingevuld, check de rode velden hierboven.', '#b3261e');
+      form.querySelector('.invalid').focus();
+      return;
+    }
     knop.disabled = true;
     var origineel = knop.textContent;
     knop.textContent = 'Versturen...';
